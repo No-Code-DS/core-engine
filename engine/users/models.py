@@ -30,3 +30,6 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     role_id = Column(Integer, ForeignKey("Roles.id"))
     organization_id = Column(Integer, ForeignKey("Organizations.id"))
+
+    organization = relationship("Organization", back_populates="users")
+    role = relationship("Role", back_populates="users")
