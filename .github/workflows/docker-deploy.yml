@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-push-gcr:
+    name: Build and push to GCR
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: core-engine
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build -t $IMAGE_NAME:latest .
+      
+      - name: Set env variables
+        run: |
+          VER=$(cat VERSION)
+          echo "VERSION=$VER" >> $GITHUB_ENV
+
+      - name: Push Docker Image to Container Registry (GCR)
+        run: |-
+          echo ${{ env.VERSION }}
+          # docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
+          # docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ env.VERSION }}
+          # docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
+          # docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:${{ env.VERSION }}
