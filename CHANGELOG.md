@@ -1,0 +1,26 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
+to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+
+## 0.2.0 - 2023-04-07
+
+### Added
+- JWT authentication
+- User pydantic schemas
+
+### Internals
+- Remove compose
+
+## 0.1.0 - 2023-04-01
+
+### Added
+- Generated database migrations
+- Users, Projects routers
+
+### Internals
+- Dockerize the app
+- Github workflow to push image on GHCR
