@@ -28,7 +28,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-    role_id = Column(Integer, ForeignKey("Roles.id"))
+    role_id = Column(Integer, ForeignKey("Roles.id"), default=1)
     organization_id = Column(Integer, ForeignKey("Organizations.id"))
 
     organization = relationship("Organization", back_populates="users")
