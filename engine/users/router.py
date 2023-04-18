@@ -22,8 +22,13 @@ def login(login_user: LoginUser, Authorize: AuthJWT = Depends(), db: Session = D
 
 @router.post("/signup")
 def sign_up(signup_user: SignupUser, Authorize: AuthJWT = Depends(), db: Session = Depends(get_db)):
-    if db.query(db.query(User).filter(User.email == signup_user.email).exists()):
-        return HTTPException(status_code=409, detail="Email already exists")
+    if signup_user.password1 != signup_user.password2:
+        raise HTTPException(status_code=400, detail="passwords don't match")
+
+    user = db.query(User).filter(User.email == signup_user.email).first()
+    if user:
+        raise HTTPException(status_code=409, detail="Email already exists")
+
     user = User(
         email=signup_user.email, 
         hashed_password=signup_user.password1,
