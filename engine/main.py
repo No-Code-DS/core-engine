@@ -14,12 +14,13 @@ from .projects.router import router as projects_router
 from .users.models import Organization
 
 
-origins = ["http://localhost", "http://localhost:3000"]
+origins = ["http://localhost"]
 
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex=r"http://localhost:30[00-99]{2}",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
