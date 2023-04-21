@@ -33,3 +33,4 @@ class User(Base):
 
     organization = relationship("Organization", back_populates="users")
     role = relationship("Role", back_populates="users")
+    projects = relationship("Project", secondary="UserToProject", back_populates="users")

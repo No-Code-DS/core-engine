@@ -5,7 +5,7 @@ from ..users.models import User  # noqa
 from ..users.models import Role  # noqa
 from ..users.models import Organization  # noqa
 
-from ..projects.models import UserToProject  # noqa
+from ..projects.models import UserProject  # noqa
 from ..projects.models import Project  # noqa
 from ..projects.models import DataSource  # noqa
 from ..projects.models import DataCleaning  # noqa

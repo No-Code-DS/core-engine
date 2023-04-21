@@ -1,26 +1,31 @@
+import datetime
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 
 from ..db.database import Base
 
 
-class UserToProject(Base):
+class UserProject(Base):
     __tablename__ = "UserToProject"
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("Users.id", ondelete="CASCADE"))
-    workflow_id = Column(Integer, ForeignKey("Projects.id", ondelete="CASCADE"))
+    project_id = Column(Integer, ForeignKey("Projects.id", ondelete="CASCADE"))
 
 
 class Project(Base):
     __tablename__ = "Projects"
 
     id = Column(Integer, primary_key=True, index=True)
-    project_name = Column(String)
-    created_at = DateTime()
+    project_name = Column(String, default="unnamed project")
+    description = Column(String, default="")
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
     data_source_id = Column(Integer, ForeignKey("DataSources.id", ondelete="CASCADE"))
     cleaning_id = Column(Integer, ForeignKey("DataCleaning.id", ondelete="CASCADE"))
     feature_engineering_id = Column(Integer, ForeignKey("FeatureEngineering.id", ondelete="CASCADE"))
     model_id = Column(Integer, ForeignKey("SelectedModel.id", ondelete="CASCADE"))
+
+    users = relationship("User", secondary="UserToProject", back_populates="projects")
 
 
 class DataSource(Base):
