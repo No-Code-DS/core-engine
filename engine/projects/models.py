@@ -26,6 +26,9 @@ class Project(Base):
     model_id = Column(Integer, ForeignKey("SelectedModel.id", ondelete="CASCADE"))
 
     users = relationship("User", secondary="UserToProject", back_populates="projects")
+    data_source = relationship("DataSource", back_populates="project", uselist=False)
+    cleaning = relationship("DataCleaning", back_populates="project", uselist=False)
+    feature_engineering = relationship("FeatureEngineering", back_populates="project", uselist=False)
 
 
 class DataSource(Base):
@@ -34,19 +37,21 @@ class DataSource(Base):
     id = Column(Integer, primary_key=True, index=True)
     data_source_name = Column(String)
     file_path = Column(String)
+    project = relationship("Project", back_populates="data_source")
 
 
 class DataCleaning(Base):
     __tablename__ = "DataCleaning"
 
     id = Column(Integer, primary_key=True, index=True)
-    formula_id = Column(Integer, ForeignKey("Formula.id"))
+    project = relationship("Project", back_populates="cleaning")
 
 
 class Formula(Base):
     __tablename__ = "Formula"
 
     id = Column(Integer, primary_key=True, index=True)
+    cleaning_id = Column(Integer, ForeignKey("DataCleaning.id"))
     formula_string = Column(String)
     target_column = Column(String)
 
@@ -56,6 +61,7 @@ class FeatureEngineering(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     feature_id = Column(Integer, ForeignKey("Feature.id"))
+    project = relationship("Project", back_populates="feature_engineering")
 
 
 class Feature(Base):

@@ -1,5 +1,6 @@
 import datetime
-from pydantic import BaseModel, EmailStr, Field
+from typing import Optional
+from pydantic import BaseModel, EmailStr
 
 
 class BaseProject(BaseModel):
@@ -20,5 +21,33 @@ class BaseUser(BaseModel):
         orm_mode = True
 
 
+class BaseDataSource(BaseModel):
+    id: int
+    data_source_name: str
+    file_path: str
+
+    class Config:
+        orm_mode = True
+
+
+class BaseCleaning(BaseModel):
+    id: int
+    # formulas: list = []
+
+    class Config:
+        orm_mode = True
+
+
+class BaseFeatures(BaseModel):
+    id: int
+    # features: list = []
+
+    class Config:
+        orm_mode = True
+
+
 class FullProject(BaseProject):
     users: list[BaseUser]
+    data_source: Optional[BaseDataSource]
+    cleaning: Optional[BaseCleaning]
+    feature_engineering: Optional[BaseFeatures]

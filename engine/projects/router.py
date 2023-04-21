@@ -10,11 +10,19 @@ router = APIRouter(prefix="/projects")
 
 
 @router.get("/", response_model=list[FullProject])
-def index(Authorize: AuthJWT = Depends(), db: Session = Depends(get_db)) -> list[FullProject]:
+def list_projects(Authorize: AuthJWT = Depends(), db: Session = Depends(get_db)) -> list[FullProject]:
     Authorize.jwt_required()
 
     projects = db.query(Project).options(joinedload(Project.users)).all()
     return projects
+
+
+@router.get("/{project_id}")
+def get_project(project_id: int, Authorize: AuthJWT = Depends(), db: Session = Depends(get_db)) -> FullProject:
+    Authorize.jwt_required()
+
+    project = db.query(Project).options(joinedload(Project.users)).where(Project.id == project_id).one()
+    return project
 
 
 @router.post("/create", response_model=BaseProject)
