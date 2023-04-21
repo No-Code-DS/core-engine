@@ -15,7 +15,7 @@ def login(login_user: LoginUser, Authorize: AuthJWT = Depends(), db: Session = D
     if not user:
         raise HTTPException(status_code=401,detail="Bad username or password")
 
-    access_token = Authorize.create_access_token(subject=user.email)
+    access_token = Authorize.create_access_token(subject=user.email, user_claims={"email": user.email, "id": user.id})
     refresh_token = Authorize.create_refresh_token(subject=user.email)
     return {"access_token": access_token, "refresh_token": refresh_token}
 
@@ -35,7 +35,7 @@ def sign_up(signup_user: SignupUser, Authorize: AuthJWT = Depends(), db: Session
     )
     db.add(user)
     db.commit()
-    access_token = Authorize.create_access_token(subject=user.email)
+    access_token = Authorize.create_access_token(subject=user.email, user_claims={"email": user.email, "id": user.id})
     refresh_token = Authorize.create_refresh_token(subject=user.email)
     return {"access_token": access_token, "refresh_token": refresh_token}
 
