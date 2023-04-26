@@ -38,7 +38,7 @@ def create_project(Authorize: AuthJWT = Depends(), db: Session = Depends(get_db)
     db.add(UserProject(user_id=user["id"], project_id=project.id))
     db.commit()
 
-    response = BaseProject(id = project.id, name=project.project_name, description=project.description, created_at=str(project.created_at))
+    response = BaseProject(id = project.id, project_name=project.project_name, description=project.description, created_at=str(project.created_at))
     return response
 
 
