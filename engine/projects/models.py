@@ -40,22 +40,6 @@ class DataSource(Base):
     project = relationship("Project", back_populates="data_source")
 
 
-class DataCleaning(Base):
-    __tablename__ = "DataCleaning"
-
-    id = Column(Integer, primary_key=True, index=True)
-    project = relationship("Project", back_populates="cleaning")
-
-
-class Formula(Base):
-    __tablename__ = "Formula"
-
-    id = Column(Integer, primary_key=True, index=True)
-    cleaning_id = Column(Integer, ForeignKey("DataCleaning.id"))
-    formula_string = Column(String)
-    target_column = Column(String)
-
-
 class FeatureEngineering(Base):
     __tablename__ = "FeatureEngineering"
 
