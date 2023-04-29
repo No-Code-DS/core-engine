@@ -10,6 +10,7 @@ from .dependencies import get_db
 
 from .users.router import router as users_router
 from .projects.router import router as projects_router
+from .cleaning.router import router as cleaning_router
 
 from .users.models import Organization
 
@@ -46,6 +47,7 @@ def authjwt_exception_handler(request: Request, exc: AuthJWTException):
 
 app.include_router(users_router)
 app.include_router(projects_router)
+app.include_router(cleaning_router)
 
 
 @app.get("/")
