@@ -56,7 +56,7 @@ def create_data_source(
     if not project:
         raise HTTPException(status_code=404, detail=f"Project with id {project_id} was not found")
 
-    file_path = f"upload/data/{file.filename}"
+    file_path = f"upload/data/raw_data/{file.filename}"
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
