@@ -35,6 +35,6 @@ def clean_data(project_id: int, cleaning_request: CleaningRequest, _ = Depends(g
         data = pd.merge(data.convert_dtypes(), pipeline.output, how="right")
 
     data.to_csv(f"upload/data/cleaned_data/{project.data_source.data_source_name}.csv", index=False)
-    # data.replace(np.nan, None, inplace=True)
+    data.replace(np.nan, None, inplace=True)
 
     return data.to_dict("list")
