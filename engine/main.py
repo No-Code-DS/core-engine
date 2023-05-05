@@ -20,5 +20,5 @@ app.add_middleware(
 
 
 app.include_router(users_router)
-app.include_router(projects_router)
 app.include_router(cleaning_router)
+app.include_router(projects_router)
