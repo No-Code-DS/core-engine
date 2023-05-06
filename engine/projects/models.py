@@ -40,22 +40,6 @@ class DataSource(Base):
     project = relationship("Project", back_populates="data_source")
 
 
-class FeatureEngineering(Base):
-    __tablename__ = "FeatureEngineering"
-
-    id = Column(Integer, primary_key=True, index=True)
-    feature_id = Column(Integer, ForeignKey("Feature.id"))
-    project = relationship("Project", back_populates="feature_engineering")
-
-
-class Feature(Base):
-    __tablename__ = "Feature"
-
-    id = Column(Integer, primary_key=True, index=True)
-    feature_name = Column(String)
-    feature_expression = Column(String)
-
-
 class SelectedModel(Base):
     __tablename__ = "SelectedModel"
 
