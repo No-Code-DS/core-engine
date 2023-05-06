@@ -1,6 +1,7 @@
+import ast
 import datetime
-from typing import Optional
-from pydantic import BaseModel, EmailStr
+from typing import Any, Optional
+from pydantic import BaseModel, EmailStr, validator
 
 
 class BaseProject(BaseModel):
@@ -30,9 +31,22 @@ class BaseDataSource(BaseModel):
         orm_mode = True
 
 
+class BaseFormula(BaseModel):
+    id: int
+    formula_string: dict[str, Any]
+    target_column: list[str]
+
+    @validator("formula_string", "target_column", pre=True)
+    def eval_fields(cls, v):
+        return ast.literal_eval(v)
+
+    class Config:
+        orm_mode = True
+
+
 class BaseCleaning(BaseModel):
     id: int
-    # formulas: list = []
+    formulas: list[BaseFormula] = []
 
     class Config:
         orm_mode = True

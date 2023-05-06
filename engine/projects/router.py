@@ -19,7 +19,9 @@ def list_projects(_ = Depends(get_current_user), db: Session = Depends(get_db)) 
 
 @router.get("/{project_id}")
 def get_project(project_id: int, _ = Depends(get_current_user), db: Session = Depends(get_db)) -> FullProject:
-    project = db.query(Project).options(joinedload(Project.users)).where(Project.id == project_id).one()
+    project = db.query(Project).options(joinedload(Project.users)).get(project_id)
+    if project is None:
+        raise HTTPException(status_code=404, detail=f"Project with id {project_id} was not found")
     return project
 
 
@@ -47,11 +49,14 @@ def create_data_source(
     if not project:
         raise HTTPException(status_code=404, detail=f"Project with id {project_id} was not found")
 
-    file_path = f"upload/data/{file.filename}"
-    with open(file_path, "wb") as buffer:
+    raw_path = f"upload/data/raw_data/{file.filename}"
+    with open(raw_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    data_source = DataSource(data_source_name=data_source_name, file_path=file_path)
+    clean_path = f"upload/data/cleaned_data/{file.filename}"
+    shutil.copyfile(raw_path, clean_path)
+
+    data_source = DataSource(data_source_name=data_source_name, file_path=clean_path)
     project.data_source = data_source
     db.commit()
 
