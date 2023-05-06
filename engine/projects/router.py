@@ -1,14 +1,11 @@
 import shutil
-from typing import Any
 from fastapi import APIRouter, Depends, Form, UploadFile, HTTPException
-import numpy as np
 from sqlalchemy.orm import Session, joinedload
 
 from engine.dependencies import get_current_user, get_db
 from engine.projects.models import DataSource, Project, UserProject
 from engine.projects.schemas import BaseDataSource, BaseProject, FullProject
 from engine.users.schemas import LoggedinUser
-import pandas as pd
 
 router = APIRouter(prefix="/projects")
 

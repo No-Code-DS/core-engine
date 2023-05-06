@@ -10,7 +10,7 @@ class DataCleaning(Base):
     id = Column(Integer, primary_key=True, index=True)
 
     project = relationship("Project", back_populates="cleaning")
-    # formulas = relationship("Formula", back_populates="cleaning")
+    formulas = relationship("Formula", back_populates="cleaning")
 
 
 class Formula(Base):
@@ -21,4 +21,4 @@ class Formula(Base):
     formula_string = Column(String)
     target_column = Column(String)
 
-    # cleaning = relationship("DataCleaning", back_populates="formulas")
+    cleaning = relationship("DataCleaning", back_populates="formulas")
