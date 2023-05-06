@@ -52,9 +52,18 @@ class BaseCleaning(BaseModel):
         orm_mode = True
 
 
+class BaseFeature(BaseModel):
+    id: int
+    feature_name: str
+    feature_expression: str
+
+    class Config:
+        orm_mode = True
+
+
 class BaseFeatures(BaseModel):
     id: int
-    # features: list = []
+    features: list[BaseFeature]
 
     class Config:
         orm_mode = True
