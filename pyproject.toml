@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "core-engine"
+description = "No code data science platform engine"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi==0.95.1",
+    "uvicorn[standard]",
+    "SQLAlchemy==2.0.11",
+    "alembic==1.10.4",
+    "email-validator==2.0.0.post2",
+    "python-multipart==0.0.6",
+    "passlib[bcrypt]",
+    "python-jose[cryptography]",
+    "psycopg2-binary==2.9.6",
+    "numpy==1.24.3",
+    "pandas==2.0.1",
+    "py-AutoCleanRe==1.1.4",
+
+]
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["engine"]
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}

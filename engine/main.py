@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .users.router import router as users_router
-from .projects.router import router as projects_router
 from .cleaning.router import router as cleaning_router
 from .feature_engineering.router import router as fe_router
-
+from .projects.router import router as projects_router
+from .users.router import router as users_router
 
 origins = ["http://localhost"]
 
