@@ -1,4 +1,5 @@
 from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -25,10 +26,19 @@ class CleaningRequest(BaseModel):
 class CleaningMap(BaseModel):
     # mode: list[str] = ["auto", "manual"]
     duplicates: list[str | bool] = [False, True, "auto"]
-    missing_num: list[str | bool] = [False, 'auto', 'linreg', 'knn', 'mean', 'median', 'most_frequent', 'delete'] 
-    missing_categ: list[str | bool] = [False, 'auto', 'logreg', 'knn', 'most_frequent', 'delete']
-    encode_categ: list[str | bool | list[str]] = [False, 'auto', ['onehot'], ['label']]
-    extract_datetime: list[str | bool] = [False, 'auto', 'D', 'M', 'Y', 'h', 'm', 's']
+    missing_num: list[str | bool] = [
+        False,
+        "auto",
+        "linreg",
+        "knn",
+        "mean",
+        "median",
+        "most_frequent",
+        "delete",
+    ]
+    missing_categ: list[str | bool] = [False, "auto", "logreg", "knn", "most_frequent", "delete"]
+    encode_categ: list[str | bool | list[str]] = [False, "auto", ["onehot"], ["label"]]
+    extract_datetime: list[str | bool] = [False, "auto", "D", "M", "Y", "h", "m", "s"]
     outliers: list[str | bool] = [False, "auto", "winz", "delete"]
     # outlier_param: int | float = 1.5
     # logfile: bool = True

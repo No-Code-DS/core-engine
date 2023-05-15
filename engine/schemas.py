@@ -3,6 +3,6 @@ from pydantic import BaseModel
 
 class TokenPayload(BaseModel):
     sub: str
-    exp: int 
+    exp: int
     email: str
     id: int
