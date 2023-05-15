@@ -3,12 +3,12 @@ from pydantic import BaseModel
 
 
 class CleaningConfig(BaseModel):
-    duplicates: Optional[str | bool] = False
-    missing_num: Optional[str | bool] = False
-    missing_categ: Optional[str | bool] = False
+    duplicates: Optional[bool | str] = False
+    missing_num: Optional[bool | str] = False
+    missing_categ: Optional[bool | str] = False
     encode_categ: Optional[list | bool] = False
-    extract_datetime: Optional[str | bool] = False
-    outliers: Optional[str | bool] = False
+    extract_datetime: Optional[bool | str] = False
+    outliers: Optional[bool | str] = False
     outlier_param: Optional[int | float] = 1.5
 
 
