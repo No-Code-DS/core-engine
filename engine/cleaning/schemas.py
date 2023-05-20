@@ -25,11 +25,11 @@ class CleaningRequest(BaseModel):
 
 class CleaningMap(BaseModel):
     # mode: list[str] = ["auto", "manual"]
-    duplicates: list[str | bool] = [False, True, "auto"]
+    duplicates: list[str | bool] = [False, "auto"]
     missing_num: list[str | bool] = [
         False,
         "auto",
-        "linreg",
+        # "linreg",
         "knn",
         "mean",
         "median",
