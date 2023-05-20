@@ -49,12 +49,9 @@ def clean_data(
 
         pipeline = AutoClean(data[["NO_CODE_CUSTOM_ID", *columns]], mode="manual", **config.dict())
 
-        data = pd.merge(
-            data, 
-            pipeline.output, 
-            on="NO_CODE_CUSTOM_ID", 
-            suffixes=('_x', '')
-        ).drop([f"{col}_x" for col in columns], axis=1)
+        data = pd.merge(data, pipeline.output, on="NO_CODE_CUSTOM_ID", suffixes=("_x", "")).drop(
+            [f"{col}_x" for col in columns], axis=1
+        )
 
         formula = Formula(
             cleaning_id=cleaning.id, formula_string=str(config.dict()), target_column=str(columns)
