@@ -20,7 +20,7 @@ dependencies = [
     "numpy==1.24.3",
     "pandas==2.0.1",
     "py-AutoCleanRe==1.1.4",
-
+    "pika==1.3.2",
 ]
 dynamic = ["version"]
 
