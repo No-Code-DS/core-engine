@@ -56,9 +56,7 @@ def clean_data(
             [f"{col}_x" for col in columns], axis=1
         )
 
-        operation = Operation(
-            cleaning_id=cleaning.id, config=str(config.dict()), column_subset=str(columns)
-        )
+        operation = Operation(cleaning_id=cleaning.id, config=str(config.dict()), column_subset=str(columns))
         db.add(operation)
 
     output_path = f"upload/data/cleaned_data/{project.data_source.data_source_name}.{file_type}"
