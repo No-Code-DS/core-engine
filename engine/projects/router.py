@@ -58,14 +58,12 @@ def create_data_source(
     if not project:
         raise HTTPException(status_code=404, detail=f"Project with id {project_id} was not found")
 
-    raw_path = f"upload/data/raw_data/{file.filename}"
+    file_type = file.filename.split(".")[-1]
+    raw_path = f"upload/data/raw_data/{data_source_name}.{file_type}"
     with open(raw_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    clean_path = f"upload/data/cleaned_data/{file.filename}"
-    shutil.copyfile(raw_path, clean_path)
-
-    data_source = DataSource(data_source_name=data_source_name, file_path=clean_path)
+    data_source = DataSource(data_source_name=data_source_name, raw_path=raw_path)
     project.data_source = data_source
     db.commit()
 
@@ -81,7 +79,15 @@ def get_data_source(
         raise HTTPException(status_code=404, detail=f"Project with id {project_id} was not found")
 
     try:
-        data = pd.read_csv(project.data_source.file_path)
+        if project.data_source.ready_path is not None:
+            data = pd.read_csv(project.data_source.ready_path)
+        elif project.data_source.clean_path is not None:
+            data = pd.read_csv(project.data_source.clean_path)
+        elif project.data_source.raw_path is not None:
+            data = pd.read_csv(project.data_source.raw_path)
+        else:
+            raise HTTPException(status_code=404, detail="Datasource file was deleted or corrupted")
+
         data.replace(np.nan, None, inplace=True)
 
         return data.to_dict("list")
