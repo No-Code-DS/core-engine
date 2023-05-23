@@ -1,6 +1,6 @@
 # NECESSARY FOR ALEMBIC TO WORK
 from ..cleaning.models import DataCleaning  # noqa
-from ..cleaning.models import Formula  # noqa
+from ..cleaning.models import Operation  # noqa
 from ..feature_engineering.models import Feature  # noqa
 from ..feature_engineering.models import FeatureEngineering  # noqa
 from ..projects.models import DataSource  # noqa

@@ -17,7 +17,7 @@ class Feature(Base):
     __tablename__ = "Feature"
 
     id = Column(Integer, primary_key=True, index=True)
-    feature_name = Column(String)
+    name = Column(String)
     feature_expression = Column(String)
     feature_engineering_id = Column(Integer, ForeignKey("FeatureEngineering.id"))
 
