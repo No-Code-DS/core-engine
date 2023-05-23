@@ -39,7 +39,10 @@ def clean_data(
     db.flush()
     project.cleaning_id = cleaning.id
 
-    data = pd.read_csv(project.data_source.file_path)
+    file_path = project.data_source.raw_path
+
+    file_type = file_path.split(".")[-1]
+    data = pd.read_csv(file_path)
     col_order = data.columns
     data[NO_CODE_CUSTOM_ID] = data.index + 1
 
@@ -47,9 +50,9 @@ def clean_data(
         columns = operation_set.column_subset
         config = operation_set.config
 
-        pipeline = AutoClean(data[["NO_CODE_CUSTOM_ID", *columns]], mode="manual", **config.dict())
+        pipeline = AutoClean(data[[NO_CODE_CUSTOM_ID, *columns]], mode="manual", **config.dict())
 
-        data = pd.merge(data, pipeline.output, on="NO_CODE_CUSTOM_ID", suffixes=("_x", "")).drop(
+        data = pd.merge(data, pipeline.output, on=NO_CODE_CUSTOM_ID, suffixes=("_x", "")).drop(
             [f"{col}_x" for col in columns], axis=1
         )
 
@@ -57,12 +60,16 @@ def clean_data(
             cleaning_id=cleaning.id, formula_string=str(config.dict()), target_column=str(columns)
         )
         db.add(formula)
+
+    output_path = f"upload/data/cleaned_data/{project.data_source.data_source_name}.{file_type}"
+    project.data_source.clean_path = output_path
+
     db.commit()
 
-    data.drop("NO_CODE_CUSTOM_ID", axis=1)
+    data.drop(NO_CODE_CUSTOM_ID, axis=1)
     data = data[col_order]
 
-    data.to_csv(f"upload/data/cleaned_data/{project.data_source.data_source_name}.csv", index=False)
+    data.to_csv(output_path, index=False)
     data.replace(np.nan, None, inplace=True)
 
     return data.to_dict("list")
