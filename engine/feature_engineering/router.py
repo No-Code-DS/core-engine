@@ -38,7 +38,7 @@ def add_features(
             "right": fe_config.right,
         }
         feature = Feature(
-            feature_name=fe_config.name,
+            name=fe_config.name,
             feature_expression=json.dumps(expression),
             feature_engineering_id=fe.id,
         )
