@@ -2,7 +2,7 @@ import ast
 import datetime
 from typing import Any, Optional
 
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, Field, root_validator, validator
 
 
 class BaseProject(BaseModel):
@@ -34,12 +34,11 @@ class BaseDataSource(BaseModel):
         orm_mode = True
 
 
-class BaseFormula(BaseModel):
-    id: int
-    formula_string: dict[str, Any]
-    target_column: list[str]
+class BaseOperation(BaseModel):
+    config: dict[str, Any]
+    column_subset: list[str]
 
-    @validator("formula_string", "target_column", pre=True)
+    @validator("config", "column_subset", pre=True)
     def eval_fields(cls, v):
         return ast.literal_eval(v)
 
@@ -49,16 +48,26 @@ class BaseFormula(BaseModel):
 
 class BaseCleaning(BaseModel):
     id: int
-    formulas: list[BaseFormula] = []
+    operations: list[BaseOperation] = []
 
     class Config:
         orm_mode = True
 
 
 class BaseFeature(BaseModel):
-    id: int
-    feature_name: str
-    feature_expression: str
+    name: str
+    feature_expression: str = Field(exclude=True)
+    left: Optional[str]
+    right: Optional[str]
+    operation_symbol: Optional[str]
+
+    @root_validator
+    def eval_expr(cls, values):
+        conf = ast.literal_eval(values["feature_expression"])
+        values["left"] = conf["left"]
+        values["right"] = conf["right"]
+        values["operation_symbol"] = conf["operation"]
+        return values
 
     class Config:
         orm_mode = True
