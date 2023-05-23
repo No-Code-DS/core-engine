@@ -1,23 +1,30 @@
 from typing import Optional
 from pydantic import BaseModel
 
+from engine.types import Params
 
-class LinRegParamSchema(BaseModel):
+
+class LinRegConfigSchema(BaseModel):
     fit_intercept: Optional[bool] = True
     positive: Optional[bool] = False
 
 
-class RandomForestClassSchema(BaseModel):
+class RandomForestClassConfigSchema(BaseModel):
     n_estimators: Optional[int] = 100
 
 
-class RandomForestRegSchema(BaseModel):
+class RandomForestRegConfigSchema(BaseModel):
     n_estimators: Optional[int] = 100
 
 
-modelParams = LinRegParamSchema | RandomForestRegSchema | RandomForestClassSchema
+modelParams = LinRegConfigSchema | RandomForestRegConfigSchema | RandomForestClassConfigSchema
 
 
 class ModelSchema(BaseModel):
     name: str
     params: modelParams
+
+
+class ModelConfigSchema(BaseModel):
+    name: str
+    params: list[Params]
