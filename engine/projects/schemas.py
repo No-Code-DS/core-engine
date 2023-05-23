@@ -26,7 +26,9 @@ class BaseUser(BaseModel):
 class BaseDataSource(BaseModel):
     id: int
     data_source_name: str
-    file_path: str
+    raw_path: str
+    clean_path: Optional[str] = None
+    ready_path: Optional[str] = None
 
     class Config:
         orm_mode = True

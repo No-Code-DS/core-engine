@@ -37,7 +37,9 @@ class DataSource(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     data_source_name = Column(String)
-    file_path = Column(String)
+    raw_path = Column(String)
+    clean_path = Column(String)
+    ready_path = Column(String)
     project = relationship("Project", back_populates="data_source")
 
 
