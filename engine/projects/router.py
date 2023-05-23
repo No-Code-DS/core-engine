@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from engine.dependencies import get_current_user, get_db
 from engine.projects.models import DataSource, Project, UserProject
-from engine.projects.schemas import BaseDataSource, BaseProject, FullProject
+from engine.projects.schemas import BaseDataSource, BaseProject, FullProject, ProjectCreate
 from engine.users.schemas import LoggedinUser
 
 router = APIRouter(prefix="/projects")
@@ -30,8 +30,8 @@ def get_project(project_id: int, _=Depends(get_current_user), db: Session = Depe
 
 
 @router.post("/create", response_model=BaseProject, response_description="Created project object")
-def create_project(user: LoggedinUser = Depends(get_current_user), db: Session = Depends(get_db)):
-    project = Project()
+def create_project(project_create: ProjectCreate, user: LoggedinUser = Depends(get_current_user), db: Session = Depends(get_db)):
+    project = Project(project_name=project_create.project_name, description=project_create.description)
     db.add(project)
     db.flush()
     db.add(UserProject(user_id=user.id, project_id=project.id))
