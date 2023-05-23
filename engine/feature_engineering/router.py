@@ -35,7 +35,7 @@ def add_features(
         expression = {
             "left": fe_config.left,
             "operation": fe_config.operation_symbol,
-            "right": fe_config.right
+            "right": fe_config.right,
         }
         feature = Feature(
             feature_name=fe_config.name,
