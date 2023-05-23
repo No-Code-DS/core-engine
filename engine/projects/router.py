@@ -30,7 +30,11 @@ def get_project(project_id: int, _=Depends(get_current_user), db: Session = Depe
 
 
 @router.post("/create", response_model=BaseProject, response_description="Created project object")
-def create_project(project_create: ProjectCreate, user: LoggedinUser = Depends(get_current_user), db: Session = Depends(get_db)):
+def create_project(
+    project_create: ProjectCreate,
+    user: LoggedinUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     project = Project(project_name=project_create.project_name, description=project_create.description)
     db.add(project)
     db.flush()

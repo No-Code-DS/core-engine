@@ -14,6 +14,7 @@ class BaseProject(BaseModel):
     class Config:
         orm_mode = True
 
+
 class ProjectCreate(BaseModel):
     project_name: str
     description: str
