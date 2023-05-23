@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 import numpy as np
@@ -26,17 +27,26 @@ def add_features(
     db.add(fe)
     db.flush()
     project.feature_engineering_id = fe.id
+
+    file_path = project.data_source.clean_path
+    data = pd.read_csv(file_path)
+
     for fe_config in fe_request:
+        expression = {
+            "left": fe_config.left,
+            "operation": fe_config.operation_symbol,
+            "right": fe_config.right,
+        }
         feature = Feature(
-            feature_name=fe_config.name,
-            feature_expression=f"{fe_config.left} {fe_config.operation_symbol} {fe_config.right}",
+            name=fe_config.name,
+            feature_expression=json.dumps(expression),
             feature_engineering_id=fe.id,
         )
         db.add(feature)
 
-        data = pd.read_csv(project.data_source.file_path)
         data = magic_fe(data, fe_config)
-        data.to_csv(f"upload/data/ready/{project.data_source.data_source_name}.csv", index=False)
+
+    data.to_csv(f"upload/data/ready/{project.data_source.data_source_name}.csv", index=False)
 
     db.commit()
 
