@@ -4,7 +4,7 @@ from AutoClean import AutoClean
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session, joinedload
 
-from engine.cleaning.models import DataCleaning, Formula
+from engine.cleaning.models import DataCleaning, Operation
 from engine.cleaning.schemas import CleaningMap, CleaningRequest
 from engine.dependencies import get_current_user, get_db
 from engine.projects.models import Project
@@ -56,10 +56,10 @@ def clean_data(
             [f"{col}_x" for col in columns], axis=1
         )
 
-        formula = Formula(
-            cleaning_id=cleaning.id, formula_string=str(config.dict()), target_column=str(columns)
+        operation = Operation(
+            cleaning_id=cleaning.id, config=str(config.dict()), column_subset=str(columns)
         )
-        db.add(formula)
+        db.add(operation)
 
     output_path = f"upload/data/cleaned_data/{project.data_source.data_source_name}.{file_type}"
     project.data_source.clean_path = output_path

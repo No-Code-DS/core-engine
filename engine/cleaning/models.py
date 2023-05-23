@@ -10,15 +10,15 @@ class DataCleaning(Base):
     id = Column(Integer, primary_key=True, index=True)
 
     project = relationship("Project", back_populates="cleaning")
-    formulas = relationship("Formula", back_populates="cleaning")
+    operations = relationship("Operation", back_populates="cleaning")
 
 
-class Formula(Base):
-    __tablename__ = "Formula"
+class Operation(Base):
+    __tablename__ = "Operation"
 
     id = Column(Integer, primary_key=True, index=True)
     cleaning_id = Column(Integer, ForeignKey("DataCleaning.id"))
-    formula_string = Column(String)
-    target_column = Column(String)
+    config = Column(String)
+    column_subset = Column(String)
 
-    cleaning = relationship("DataCleaning", back_populates="formulas")
+    cleaning = relationship("DataCleaning", back_populates="operations")
