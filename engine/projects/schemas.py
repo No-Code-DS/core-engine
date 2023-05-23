@@ -15,6 +15,11 @@ class BaseProject(BaseModel):
         orm_mode = True
 
 
+class ProjectCreate(BaseModel):
+    project_name: str
+    description: str
+
+
 class BaseUser(BaseModel):
     id: int
     email: EmailStr
