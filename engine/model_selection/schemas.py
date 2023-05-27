@@ -1,4 +1,5 @@
 from typing import Optional
+
 from pydantic import BaseModel
 
 from engine.types import Params
@@ -22,6 +23,7 @@ modelParams = LinRegConfigSchema | RandomForestRegConfigSchema | RandomForestCla
 
 class ModelSchema(BaseModel):
     name: str
+    prediction_field: str
     params: modelParams
 
 
