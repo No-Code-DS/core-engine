@@ -37,6 +37,8 @@ def select_model(project_id: int, model_config: ModelSchema, db: Session = Depen
     db.add(model)
     db.flush()
 
+    project.model_id = model.id
+
     db.commit()
 
     return {"status": "Training"}
