@@ -30,6 +30,7 @@ class Project(Base):
     data_source = relationship("DataSource", back_populates="project", uselist=False)
     cleaning = relationship("DataCleaning", back_populates="project", uselist=False)
     feature_engineering = relationship("FeatureEngineering", back_populates="project", uselist=False)
+    model = relationship("SelectedModel", back_populates="project", uselist=False)
 
 
 class DataSource(Base):
@@ -40,11 +41,5 @@ class DataSource(Base):
     raw_path = Column(String)
     clean_path = Column(String)
     ready_path = Column(String)
+
     project = relationship("Project", back_populates="data_source")
-
-
-class SelectedModel(Base):
-    __tablename__ = "SelectedModel"
-
-    id = Column(Integer, primary_key=True, index=True)
-    model_name = Column(String)
