@@ -29,7 +29,6 @@ def select_model(project_id: int, model_config: ModelSchema, db: Session = Depen
     if project is None:
         raise HTTPException(status_code=404, detail=f"Project with id {project_id} was not found")
 
-
     model = SelectedModel(
         model_name=model_config.name,
         prediction_field=model_config.prediction_field,
