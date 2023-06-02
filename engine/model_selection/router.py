@@ -32,7 +32,7 @@ def select_model(project_id: int, model_config: ModelSchema, db: Session = Depen
     model = SelectedModel(
         model_name=model_config.name,
         prediction_field=model_config.prediction_field,
-        config=model_config.params,
+        config=str(model_config.params.dict()),
     )
     db.add(model)
     db.flush()
