@@ -46,7 +46,9 @@ def add_features(
 
         data = magic_fe(data, fe_config)
 
-    data.to_csv(f"upload/data/ready/{project.data_source.data_source_name}.csv", index=False)
+    ready_path = f"upload/data/ready/{project.data_source.data_source_name}.csv"
+    data.to_csv(ready_path, index=False)
+    project.data_source.ready_path = ready_path
 
     db.commit()
 
