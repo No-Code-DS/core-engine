@@ -18,7 +18,6 @@ router = APIRouter(prefix="/projects")
 def list_projects(_=Depends(get_current_user), db: Session = Depends(get_db)) -> list[FullProject]:
 
     projects = db.query(Project).options(joinedload(Project.users)).all()
-    print(projects[-1].model.__dict__)
     return projects
 
 
