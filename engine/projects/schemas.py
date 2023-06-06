@@ -86,8 +86,43 @@ class BaseFeatures(BaseModel):
         orm_mode = True
 
 
+class BaseSelectedModel(BaseModel):
+    model_name: str
+    prediction_field: str
+    status: Optional[str] = None
+    config: Optional[dict[str, Any]] = None
+    evaluation: Optional[dict[str, int]] = None
+
+    @validator("config", "evaluation", pre=True)
+    def eval_fields(cls, v):
+        return ast.literal_eval(v) if v is not None else None
+
+    @validator("status", pre=True)
+    def eval_status(cls, v):
+        return v.value if v is not None else None
+
+    class Config:
+        orm_mode = True
+
+
 class FullProject(BaseProject):
     users: list[BaseUser]
     data_source: Optional[BaseDataSource]
     cleaning: Optional[BaseCleaning]
     feature_engineering: Optional[BaseFeatures]
+    model: Optional[BaseSelectedModel]
+    status: str = "Empty"
+
+    @root_validator
+    def eval_expr(cls, values):
+        if values["data_source"] is None:
+            values["status"] = "Empty"
+        elif values["cleaning"] is None:
+            values["status"] = "Empty"
+        elif values["feature_engineering"] is None:
+            values["status"] = "Cleaning"
+        elif values["model"] is None:
+            values["status"] = "FE"
+        elif values["model"] is not None:
+            values["status"] = values["model"].status
+        return values
