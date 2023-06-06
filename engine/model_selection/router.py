@@ -41,7 +41,7 @@ def select_model(project_id: int, model_config: ModelSchema, db: Session = Depen
         model_name=model_config.name,
         prediction_field=model_config.prediction_field,
         config=str(model_config.params.dict()),
-        status=StatusEnum.TRAINING
+        status=StatusEnum.TRAINING,
     )
     db.add(model)
     db.flush()
