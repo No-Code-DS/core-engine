@@ -13,7 +13,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_origin_regex=r"http://localhost:30[00-99]{2}",
+    allow_origin_regex=r"http://(.*amazonaws\.com)|(localhost:30[00-99]{2})",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
