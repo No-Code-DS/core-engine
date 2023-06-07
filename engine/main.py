@@ -7,7 +7,7 @@ from .model_selection.router import router as models_router
 from .projects.router import router as projects_router
 from .users.router import router as users_router
 
-origins = ["http://localhost"]
+origins = ["http://localhost", "http://datalume.ai", "https://datalume.ai"]
 
 app = FastAPI()
 app.add_middleware(
