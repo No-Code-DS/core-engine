@@ -7,13 +7,13 @@ from .model_selection.router import router as models_router
 from .projects.router import router as projects_router
 from .users.router import router as users_router
 
-origins = ["http://localhost"]
+origins = ["http://localhost", "http://datalume.ai", "https://datalume.ai"]
 
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_origin_regex=r"http://localhost:30[00-99]{2}",
+    allow_origin_regex=r"http://(.*amazonaws\.com)|(localhost:30[00-99]{2})",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
