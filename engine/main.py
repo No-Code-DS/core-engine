@@ -20,8 +20,8 @@ app.add_middleware(
 )
 
 
-app.include_router(users_router)
-app.include_router(cleaning_router)
-app.include_router(fe_router)
-app.include_router(models_router)
-app.include_router(projects_router)
+app.include_router(users_router, prefix="/api")
+app.include_router(cleaning_router, prefix="/api")
+app.include_router(fe_router, prefix="/api")
+app.include_router(models_router, prefix="/api")
+app.include_router(projects_router, prefix="/api")
