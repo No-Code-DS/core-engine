@@ -1,5 +1,6 @@
 from .cleaning.models import DataCleaning  # noqa
 from .cleaning.models import Operation  # noqa
+from .deployment.models import Deployment  # noqa
 from .feature_engineering.models import Feature  # noqa
 from .feature_engineering.models import FeatureEngineering  # noqa
 from .model_selection.models import SelectedModel  # noqa
