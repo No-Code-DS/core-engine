@@ -25,12 +25,14 @@ class Project(Base):
     cleaning_id = Column(Integer, ForeignKey("DataCleaning.id", ondelete="SET NULL"))
     feature_engineering_id = Column(Integer, ForeignKey("FeatureEngineering.id", ondelete="SET NULL"))
     model_id = Column(Integer, ForeignKey("SelectedModel.id", ondelete="SET NULL"))
+    deployment_id = Column(Integer, ForeignKey("Deployment.id", ondelete="SET NULL"))
 
     users = relationship("User", secondary="UserToProject", back_populates="projects")
     data_source = relationship("DataSource", back_populates="project", uselist=False)
     cleaning = relationship("DataCleaning", back_populates="project", uselist=False)
     feature_engineering = relationship("FeatureEngineering", back_populates="project", uselist=False)
     model = relationship("SelectedModel", back_populates="project", uselist=False)
+    deployment = relationship("Deployment", back_populates="project")
 
 
 class DataSource(Base):

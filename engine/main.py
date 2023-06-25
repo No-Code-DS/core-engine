@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .cleaning.router import router as cleaning_router
+from .deployment.router import router as deploy_router
 from .feature_engineering.router import router as fe_router
 from .model_selection.router import router as models_router
 from .projects.router import router as projects_router
@@ -25,3 +26,4 @@ app.include_router(cleaning_router, prefix="/api")
 app.include_router(fe_router, prefix="/api")
 app.include_router(models_router, prefix="/api")
 app.include_router(projects_router, prefix="/api")
+app.include_router(deploy_router, prefix="/api")
